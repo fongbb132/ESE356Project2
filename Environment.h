@@ -9,16 +9,23 @@ class Environment: public sc_module{
 public: 
 	sc_fifo_in<sc_int<32>> x_in; 
 	sc_fifo_in<sc_int<32>> y_in; 
+	sc_fifo_in<sc_int<8>> path_in;
 	sc_fifo_out<bool> stopOrGo; //0 for stop 1 for go 
 
-	SC_HAS_PROCESS(Environment); 
+
+	SC_HAS_PROCESS(Environment);
+
+	void timeRunning();  
+	void receivePath(); 
 
 	Environment(sc_module_name name): sc_module(name){
+		SC_THREAD(timeRunning); 
 	
 	}
 
 private:
+	double currentTime = 0.0; 
+	int pathIndex = 0 ; 
 	int path[numPath]; 
-	
-	
+	bool isPathReceived = false; 
 };

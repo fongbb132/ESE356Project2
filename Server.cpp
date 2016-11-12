@@ -16,7 +16,8 @@ void Server::loadPath(){
 void Server::sendPath(){
 	if(pathIndex < numPath){
 		cout<<"Server " << path[pathIndex]<< " " <<endl; 
-		path_out.write(path[pathIndex]);
+		path_out_env.write(path[pathIndex]);
+		path_out_robot.write(path[pathIndex]);
 		pathIndex++; 
 	}
 	wait(1, SC_NS); 

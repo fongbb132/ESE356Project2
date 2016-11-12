@@ -30,3 +30,7 @@
 
 *.o
 *.gitignore
+
+main
+
+*.vcd

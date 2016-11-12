@@ -7,31 +7,41 @@
 #endif
 int sc_main(int argc, char* argv[]){
 	Server server("server1"); 
-	// Environment environment("environment1");
+	Environment environment("environment1");
 	Robot robot("robot1"); 
 	
-	sc_fifo<sc_int<32>> robot_x; 
-	sc_fifo<sc_int<32>> robot_y; 
-	sc_fifo<sc_int<8>> path; 
+	sc_fifo<sc_int<32>> robot_x_server; 
+	sc_fifo<sc_int<32>> robot_y_server; 
+
+	sc_fifo<sc_int<32>> robot_x_env; 
+	sc_fifo<sc_int<32>> robot_y_env; 
+
+	sc_fifo<sc_int<8>> path_env; 
+
+	sc_fifo<sc_int<8>> path_robot; 
 	sc_fifo<bool> stopOrGo; 
+
 
 	sc_clock clock("clock", 5, SC_NS); 
 
-	robot.x_out(robot_x); 
-	robot.y_out(robot_y); 
-	robot.path_in(path); 
+	robot.x_out_server(robot_x_server); 
+	robot.y_out_server(robot_y_server); 
+	robot.x_out_env(robot_x_env); 
+	robot.y_out_env(robot_y_env); 
+	robot.path_in(path_robot); 
 	robot.stopOrGo(stopOrGo);
 	robot.clk(clock); 
 
-	server.x_in(robot_x); 
-	server.y_in(robot_y); 
-	server.path_out(path); 
+	server.x_in(robot_x_server); 
+	server.y_in(robot_y_server); 
+	server.path_out_robot(path_robot); 
+	server.path_out_env(path_env);
 	server.clk(clock);
 
-	// environment.x_in(robot_x); 
-	// environment.y_in(robot_y); 
-	// environment.stopOrGo(stopOrGo); 
-
+	environment.x_in(robot_x_env); 
+	environment.y_in(robot_y_env); 
+	environment.path_in(path_env); 
+	environment.stopOrGo(stopOrGo); 
 
 	server.loadPath(); 
 

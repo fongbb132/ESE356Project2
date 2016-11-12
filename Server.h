@@ -8,7 +8,8 @@ class Server: public sc_module{
 public: 
 	sc_fifo_in<sc_int<32>> x_in; 
 	sc_fifo_in<sc_int<32>> y_in; 
-	sc_fifo_out<sc_int<8>>path_out; 
+	sc_fifo_out<sc_int<8>>path_out_robot; 
+	sc_fifo_out<sc_int<8>>path_out_env; 
 	sc_in<bool> clk; 
 
 	void loadPath(); 

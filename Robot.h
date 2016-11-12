@@ -6,8 +6,12 @@
 
 class Robot: public sc_module{
 public: 
-	sc_fifo_out<sc_int<32>> x_out; 
-	sc_fifo_out<sc_int<32>> y_out; 
+	sc_fifo_out<sc_int<32>> x_out_server; 
+	sc_fifo_out<sc_int<32>> y_out_server; 
+
+	sc_fifo_out<sc_int<32>> x_out_env; 
+	sc_fifo_out<sc_int<32>> y_out_env;
+	
 	sc_fifo_in<sc_int<8>> path_in;
 	sc_fifo_in<bool> stopOrGo; //0 for stop 1 for go 
 	sc_in<bool> clk; 
