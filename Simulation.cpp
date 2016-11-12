@@ -7,7 +7,7 @@
 #endif
 int sc_main(int argc, char* argv[]){
 	Server server("server1"); 
-	Environment environment("environment1");
+	// Environment environment("environment1");
 	Robot robot("robot1"); 
 	
 	sc_fifo<sc_int<32>> robot_x; 
@@ -28,13 +28,17 @@ int sc_main(int argc, char* argv[]){
 	server.path_out(path); 
 	server.clk(clock);
 
-	environment.x_in(robot_x); 
-	environment.y_in(robot_y); 
-	environment.stopOrGo(stopOrGo); 
+	// environment.x_in(robot_x); 
+	// environment.y_in(robot_y); 
+	// environment.stopOrGo(stopOrGo); 
 
 
 	server.loadPath(); 
 
+	// sc_trace_file *wf = sc_create_vcd_trace_file("waveform"); 
+	// sc_trace(wf, path.read(), "Path_comm");
+	sc_start(100, SC_NS); 
+	// sc_close_vcd_trace_file(wf); 
 	return 0;
 }
 

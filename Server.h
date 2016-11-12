@@ -8,7 +8,7 @@ class Server: public sc_module{
 public: 
 	sc_fifo_in<sc_int<32>> x_in; 
 	sc_fifo_in<sc_int<32>> y_in; 
-	sc_fifo_out<sc_int<8>> path_out; 
+	sc_fifo_out<sc_int<8>>path_out; 
 	sc_in<bool> clk; 
 
 	void loadPath(); 
@@ -16,14 +16,13 @@ public:
 	void timeRunning(); 
 
 	int map[numGrid]; 
-	int paths[numPath]; 
+	int path[numPath]; 
 
 
 	SC_HAS_PROCESS(Server); 
 
 	Server(sc_module_name name): sc_module(name){
-		SC_METHOD(timeRunning); 
-		sensitive<<clk.pos();
+		SC_THREAD(timeRunning); 
 	}
 
 private:
@@ -31,3 +30,6 @@ private:
 	int pathIndex = 0; 
 	
 };
+
+
+

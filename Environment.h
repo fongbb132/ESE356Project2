@@ -14,10 +14,11 @@ public:
 	SC_HAS_PROCESS(Environment); 
 
 	Environment(sc_module_name name): sc_module(name){
+	
 	}
 
 private:
-	
+	int path[numPath]; 
 	
 	
 };

@@ -20,12 +20,14 @@ public:
 	void receivePath(); 
 
 	Robot(sc_module_name name): sc_module(name){
-		SC_METHOD(timeRunning); 
-		sensitive<<clk.pos(); 
+		SC_THREAD(timeRunning); 
+		// sensitive<<clk.pos(); 
 	}
 
 
 private:
 	double currentTime = 0.0; 
 	int pathIndex = 0 ; 
+	int path[numPath]; 
+	bool isPathReceived = false; 
 };

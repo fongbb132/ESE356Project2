@@ -7,31 +7,25 @@ void Server::loadPath(){
 		myfile>>map[i];
 	}
 	for(int i = 0; i < numPath; i++){
-		myfile>>paths[i];
+		myfile>>path[i];
 	}
 	myfile.close(); 
-
-
-	// for(int i = 0 ; i < numGrid; i++){
-	// 	cout<< map[i] << " " ; 
-	// }
-
-	// cout<<endl ; 
-	// for(int i = 0 ; i < numPath; i++){
-	// 	cout<< paths[i] <<" " ; 
-	// }
-	// cout<<endl;
 }
 
 
 void Server::sendPath(){
-	if(clk.read() && pathIndex < numPath){
-		path_out.write(pathIndex);
+	if(pathIndex < numPath){
+		cout<<"Server " << path[pathIndex]<< " " <<endl; 
+		path_out.write(path[pathIndex]);
 		pathIndex++; 
 	}
+	wait(1, SC_NS); 
 }
 
 
 void Server::timeRunning(){
-	currentTime+=0.001;
+	while(true){
+		currentTime+=0.001;
+		sendPath(); 
+	}
 }
