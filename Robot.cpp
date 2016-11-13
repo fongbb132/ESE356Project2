@@ -1,32 +1,51 @@
 #include "Robot.h"
 
 void Robot::move(){
-
+	if(!stopOrGo_env.read() || !stopOrGo_env.read()){
+		cout<<"Stop T_T"<<endl; 
+	} else{
+		cout<<"I'm moving mother fucker"<<endl;
+		x += robotSpeed * timeIncrement; 
+	}
 }
 
 
 void Robot::timeRunning(){
-
 	while(true){
-		currentTime+=0.001;
-		if(!isPathReceived)
+		// cout<<"Robot current time: " <<currentTime<<endl; 
+		currentTime += timeIncrement;
+		if(!isPathReceived){
 			receivePath();
+		}
 		else{
+			move(); 
+			// testPathTransmission();
+			cout<<"Robot: "<<x << endl;
+			x_out_server.write(x); 
+			x_out_env.write(x); 
 
 		}
-
 		wait(1, SC_NS); 
 	} 
 }
 
+void Robot::testPathTransmission(){
+		cout<<"Robot: ";
+
+		for(int i = 0 ; i < numPath ; i++){
+			cout<< path[i] << " " ;
+		}
+
+		cout<<endl; 		
+}
+
+
 void Robot::receivePath(){
 	if(pathIndex < numPath){
 		path[pathIndex]  = path_in.read(); 
-		cout<<"Robot " << path[pathIndex]<<endl ; 
-
 		pathIndex++; 
 	}else{
-		isPathReceived = true; 
+		isPathReceived = true;  
 	}
 
 }

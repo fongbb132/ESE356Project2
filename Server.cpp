@@ -15,10 +15,13 @@ void Server::loadPath(){
 
 void Server::sendPath(){
 	if(pathIndex < numPath){
-		cout<<"Server " << path[pathIndex]<< " " <<endl; 
+		// cout<<"Server " << path[pathIndex]<< " " <<endl; 
 		path_out_env.write(path[pathIndex]);
 		path_out_robot.write(path[pathIndex]);
 		pathIndex++; 
+		if(pathIndex == numPath){
+
+		}
 	}
 	wait(1, SC_NS); 
 }
@@ -26,7 +29,11 @@ void Server::sendPath(){
 
 void Server::timeRunning(){
 	while(true){
-		currentTime+=0.001;
+		// cout<<"Server current time: " <<currentTime<<endl; 
+		currentTime+=timeIncrement;
 		sendPath(); 
+
+		stopOrGo.write(1); 
 	}
+
 }

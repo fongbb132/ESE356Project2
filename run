@@ -1,4 +1,5 @@
 #!/bin/sh
 clear
 make main
+clear
 ./main
