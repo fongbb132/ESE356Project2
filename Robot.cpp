@@ -1,14 +1,12 @@
 #include "Robot.h"
 
 void Robot::move(){
-	if(!stopOrGo_env.read() || !stopOrGo_env.read()){
-		cout<<"Stop T_T"<<endl; 
-	} else{
-		cout<<"I'm moving mother fucker"<<endl;
+	if(stopOrGo_env.read() || stopOrGo_server.read()){
 		x += robotSpeed * timeIncrement; 
+	} else{
+
 	}
 }
-
 
 void Robot::timeRunning(){
 	while(true){
@@ -20,11 +18,14 @@ void Robot::timeRunning(){
 		else{
 			move(); 
 			// testPathTransmission();
-			cout<<"Robot: "<<x << endl;
+
+
+			cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
 			x_out_server.write(x); 
 			x_out_env.write(x); 
 
 		}
+
 		wait(1, SC_NS); 
 	} 
 }
@@ -38,7 +39,6 @@ void Robot::testPathTransmission(){
 
 		cout<<endl; 		
 }
-
 
 void Robot::receivePath(){
 	if(pathIndex < numPath){

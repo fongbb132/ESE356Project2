@@ -20,7 +20,7 @@ void Server::sendPath(){
 		path_out_robot.write(path[pathIndex]);
 		pathIndex++; 
 		if(pathIndex == numPath){
-
+			
 		}
 	}
 	wait(1, SC_NS); 

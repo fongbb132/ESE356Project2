@@ -21,8 +21,7 @@ void Environment::timeRunning(){
 		else{
 
 
-			cout<<x_in.read()<<endl; 
-
+			cout<<"environment time: " << currentTime << " x: " << x_in.read()<<endl; 
 
 			// testPathTransmission();
 		}

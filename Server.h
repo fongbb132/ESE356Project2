@@ -21,7 +21,6 @@ public:
 	int map[numGrid]; 
 	int path[numPath]; 
 
-
 	SC_HAS_PROCESS(Server); 
 
 	Server(sc_module_name name): sc_module(name){

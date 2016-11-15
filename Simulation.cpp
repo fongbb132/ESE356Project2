@@ -51,7 +51,7 @@ int sc_main(int argc, char* argv[]){
 
 	// sc_trace_file *wf = sc_create_vcd_trace_file("waveform"); 
 	// sc_trace(wf, path.read(), "Path_comm");
-	sc_start(100000, SC_NS); 
+	sc_start(10000, SC_NS); 
 	// sc_close_vcd_trace_file(wf); 
 	return 0;
 }
