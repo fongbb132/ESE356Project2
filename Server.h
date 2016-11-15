@@ -30,6 +30,8 @@ public:
 private:
 	double currentTime = 0.0;
 	int pathIndex = 0; 
+	bool finishedSending = false; 
+	double robot_x = 0; 
 	
 };
 

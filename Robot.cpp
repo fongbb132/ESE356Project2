@@ -1,7 +1,7 @@
 #include "Robot.h"
 
 void Robot::move(){
-	if(stopOrGo_env.read() || stopOrGo_server.read()){
+	if(stopOrGo_e || stopOrGo_s){
 		x += robotSpeed * timeIncrement; 
 	} else{
 
@@ -12,6 +12,8 @@ void Robot::timeRunning(){
 	while(true){
 		// cout<<"Robot current time: " <<currentTime<<endl; 
 		currentTime += timeIncrement;
+
+
 		if(!isPathReceived){
 			receivePath();
 		}
@@ -19,6 +21,8 @@ void Robot::timeRunning(){
 			move(); 
 			// testPathTransmission();
 
+			stopOrGo_s = stopOrGo_server.read(); 
+			stopOrGo_e = stopOrGo_env.read(); 
 
 			cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
 			x_out_server.write(x); 

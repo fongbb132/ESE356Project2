@@ -36,4 +36,5 @@ private:
 	int path[numPath]; 
 	bool isPathReceived = false; 
 	float x = 0.0; 
+	bool stopOrGo_s, stopOrGo_e; 
 };

@@ -16,16 +16,15 @@ void Environment::timeRunning(){
 	while(true){
 		// cout<<"Environment current time: " <<currentTime<<endl; 
 		currentTime+=0.001;
+		stopOrGo.write(1); 
 		if(!isPathReceived)
 			receivePath();
 		else{
-
 
 			cout<<"environment time: " << currentTime << " x: " << x_in.read()<<endl; 
 
 			// testPathTransmission();
 		}
-		stopOrGo.write(1); 
 
 		wait(1, SC_NS); 
 	} 
