@@ -12,21 +12,21 @@ int sc_main(int argc, char* argv[]){
 	Environment environment("environment1");
 	Robot robot("robot1"); 
 	
-	sc_fifo<float> robot_x_server; 
-	sc_fifo<float> robot_y_server; 
+	sc_signal<float> robot_x_server; 
+	sc_signal<float> robot_y_server; 
 
-	sc_fifo<float> robot_x_env; 
-	sc_fifo<float> robot_y_env; 
+	sc_signal<float> robot_x_env; 
+	sc_signal<float> robot_y_env; 
 
 	sc_fifo<sc_int<8>> path_env; 
 
 	sc_fifo<sc_int<8>> path_robot; 
 	
-	sc_fifo<bool> stopOrGo_env; 
-	sc_fifo<bool> stopOrGo_server; 
+	sc_signal<bool> stopOrGo_env; 
+	sc_signal<bool> stopOrGo_server; 
 
 
-	sc_clock clock("clock", 5, SC_NS); 
+	sc_clock clock("clock", 1, SC_NS); 
 
 	robot.x_out_server(robot_x_server); 
 	robot.y_out_server(robot_y_server); 
@@ -48,6 +48,7 @@ int sc_main(int argc, char* argv[]){
 	environment.y_in(robot_y_env); 
 	environment.path_in(path_env); 
 	environment.stopOrGo(stopOrGo_env); 
+	environment.clk(clock);
 
 	server.loadPath(); 
 

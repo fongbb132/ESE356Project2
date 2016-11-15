@@ -7,15 +7,15 @@
 
 class Robot: public sc_module{
 public: 
-	sc_fifo_out<float> x_out_server; 
-	sc_fifo_out<float> y_out_server; 
+	sc_out<float> x_out_server; 
+	sc_out<float> y_out_server; 
 
-	sc_fifo_out<float> x_out_env; 
-	sc_fifo_out<float> y_out_env;
+	sc_out<float> x_out_env; 
+	sc_out<float> y_out_env;
 
 	sc_fifo_in<sc_int<8>> path_in;
-	sc_fifo_in<bool> stopOrGo_env; //0 for stop 1 for go 
-	sc_fifo_in<bool> stopOrGo_server; 
+	sc_in<bool> stopOrGo_env; //0 for stop 1 for go 
+	sc_in<bool> stopOrGo_server; 
 	sc_in<bool> clk; 
 
 	SC_HAS_PROCESS(Robot); 
@@ -26,7 +26,9 @@ public:
 	void testPathTransmission(); 
 
 	Robot(sc_module_name name): sc_module(name){
-		SC_THREAD(timeRunning); 
+		SC_THREAD(receivePath);
+		SC_METHOD(timeRunning); 
+		sensitive<<clk.pos();
 	}
 
 private:

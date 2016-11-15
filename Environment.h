@@ -7,11 +7,11 @@
 
 class Environment: public sc_module{
 public: 
-	sc_fifo_in<float> x_in; 
-	sc_fifo_in<float> y_in; 
+	sc_in<float> x_in; 
+	sc_in<float> y_in; 
 	sc_fifo_in<sc_int<8>> path_in;
-	sc_fifo_out<bool> stopOrGo; //0 for stop 1 for go 
-
+	sc_out<bool> stopOrGo; //0 for stop 1 for go 
+	sc_in<bool> clk;
 
 	SC_HAS_PROCESS(Environment);
 
@@ -20,7 +20,9 @@ public:
 	void testPathTransmission(); 
 
 	Environment(sc_module_name name): sc_module(name){
-		SC_THREAD(timeRunning); 
+		SC_THREAD(receivePath);
+		SC_METHOD(timeRunning);
+		sensitive<<clk.pos();
 	
 	}
 

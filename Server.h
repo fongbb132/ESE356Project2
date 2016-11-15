@@ -7,9 +7,9 @@
 
 class Server: public sc_module{
 public: 
-	sc_fifo_in<float> x_in; 
-	sc_fifo_in<float> y_in; 
-	sc_fifo_out<bool> stopOrGo; 
+	sc_in<float> x_in; 
+	sc_in<float> y_in; 
+	sc_out<bool> stopOrGo; 
 	sc_fifo_out<sc_int<8>>path_out_robot; 
 	sc_fifo_out<sc_int<8>>path_out_env; 
 	sc_in<bool> clk; 
@@ -25,7 +25,10 @@ public:
 	SC_HAS_PROCESS(Server); 
 
 	Server(sc_module_name name): sc_module(name){
-		SC_THREAD(timeRunning); 
+
+		SC_THREAD(sendPath);
+		SC_METHOD(timeRunning); 
+		sensitive<<clk.pos();
 	}
 
 private:

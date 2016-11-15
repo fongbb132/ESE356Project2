@@ -35,12 +35,12 @@ void Robot::move(){
 }
 
 void Robot::timeRunning(){
-	while(true){
+	// while(true){
 		// cout<<"Robot current time: " <<currentTime<<endl; 
 		currentTime += timeIncrement;
 
 		if(!isPathReceived){
-			receivePath();
+			// receivePath();
 		}
 		else{
 			// testPathTransmission();
@@ -60,7 +60,7 @@ void Robot::timeRunning(){
 		}
 
 		// wait(1, SC_NS); 
-	} 
+	// } 
 }
 
 void Robot::testPathTransmission(){
@@ -74,11 +74,14 @@ void Robot::testPathTransmission(){
 }
 
 void Robot::receivePath(){
-	if(pathIndex < numPath){
-		path[pathIndex]  = path_in.read(); 
-		pathIndex++; 
-	}else{
-		isPathReceived = true;  
+	while(true){
+		if(pathIndex < numPath){
+			path[pathIndex]  = path_in.read(); 
+			pathIndex++; 
+		}else{
+			isPathReceived = true;  
+		}
+		wait(1, SC_NS); 
 	}
 
 }

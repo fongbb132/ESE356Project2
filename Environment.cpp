@@ -13,12 +13,12 @@ void Environment::testPathTransmission(){
 
 void Environment::timeRunning(){
 
-	while(true){
+	// while(true){
 		// cout<<"Environment current time: " <<currentTime<<endl; 
 		currentTime+=timeIncrement;
 		// stopOrGo.write(1); 
 		if(!isPathReceived){
-			receivePath();
+			// receivePath();
 			obstacle_x = 20;
 			stopOrGo.write(1); 
 		}
@@ -41,18 +41,19 @@ void Environment::timeRunning(){
 			// testPathTransmission();
 		}
 
-		wait(1, SC_NS); 
-	} 
+	// } 
 }
 
 void Environment::receivePath(){
-	if(pathIndex < numPath){
-		path[pathIndex]  = path_in.read(); 
-		pathIndex++; 
-	}else{
-		isPathReceived = true; 
+	while(true){
+		if(pathIndex < numPath){
+			path[pathIndex]  = path_in.read(); 
+			pathIndex++; 
+		}else{
+			isPathReceived = true; 
+		}
+		wait(1, SC_NS); 
 	}
-
 }
 
 
