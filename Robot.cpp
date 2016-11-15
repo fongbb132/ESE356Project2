@@ -1,10 +1,14 @@
 #include "Robot.h"
 
 void Robot::move(){
-	if(stopOrGo_e || stopOrGo_s){
+	if(stopOrGo_e && stopOrGo_s){
 		x += robotSpeed * timeIncrement; 
+		// cout<<"Robot Moving " << endl;
 	} else{
-
+		if(!stopOrGo_s)
+			cout<<"At time: "<<currentTime<<" Robot is reaching the edge of the grid. Stop."<<endl;
+		else if(!stopOrGo_e) 
+			cout<<"At time: "<<currentTime<<". Obstacle is in the front. Stop."<<endl;
 	}
 }
 
@@ -12,7 +16,6 @@ void Robot::timeRunning(){
 	while(true){
 		// cout<<"Robot current time: " <<currentTime<<endl; 
 		currentTime += timeIncrement;
-
 
 		if(!isPathReceived){
 			receivePath();
@@ -24,7 +27,7 @@ void Robot::timeRunning(){
 			stopOrGo_s = stopOrGo_server.read(); 
 			stopOrGo_e = stopOrGo_env.read(); 
 
-			cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
+			// cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
 			x_out_server.write(x); 
 			x_out_env.write(x); 
 

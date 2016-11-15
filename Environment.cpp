@@ -15,13 +15,25 @@ void Environment::timeRunning(){
 
 	while(true){
 		// cout<<"Environment current time: " <<currentTime<<endl; 
-		currentTime+=0.001;
-		stopOrGo.write(1); 
-		if(!isPathReceived)
+		currentTime+=timeIncrement;
+		// stopOrGo.write(1); 
+		if(!isPathReceived){
 			receivePath();
+			obstacle_x = 20;
+			stopOrGo.write(1); 
+		}
 		else{
+			obstacle_x -= obstacleSpeed * timeIncrement; 
+			// cout<<"Environment at time: "<< currentTime << " robot_x " << robot_x<<" obstacle_x: " << obstacle_x<<endl;
+			robot_x =  x_in.read(); 
 
-			cout<<"environment time: " << currentTime << " x: " << x_in.read()<<endl; 
+			if(robot_x - obstacle_x < 0.1 && robot_x - obstacle_x > 0){
+				stopOrGo.write(0); 
+			}else{
+				stopOrGo.write(1); 
+			}
+
+			// cout<<"environment time: " << currentTime << " x: " <<robot_x<<endl; 
 
 			// testPathTransmission();
 		}

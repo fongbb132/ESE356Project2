@@ -32,7 +32,9 @@ private:
 	int pathIndex = 0; 
 	bool finishedSending = false; 
 	double robot_x = 0; 
-	
+	int robot_grid = 0;//path[0]; 
+
+	bool prevStop = false; 
 };
 
 

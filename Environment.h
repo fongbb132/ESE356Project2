@@ -29,4 +29,7 @@ private:
 	int pathIndex = 0 ; 
 	int path[numPath]; 
 	bool isPathReceived = false; 
+	double robot_x; 
+
+	double obstacle_x = 30; 
 };
