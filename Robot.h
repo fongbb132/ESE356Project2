@@ -1,4 +1,5 @@
 #include "systemc.h"
+
 #ifndef CONST_H
 #define CONST_H 1
 #include "const.h"
@@ -17,7 +18,6 @@ public:
 	sc_fifo_in<bool> stopOrGo_server; 
 	sc_in<bool> clk; 
 
-
 	SC_HAS_PROCESS(Robot); 
 
 	void move(); 
@@ -29,7 +29,6 @@ public:
 		SC_THREAD(timeRunning); 
 	}
 
-
 private:
 	double currentTime = 0.0; 
 	int pathIndex = 0 ; 
@@ -37,4 +36,6 @@ private:
 	bool isPathReceived = false; 
 	float x = 0.0; 
 	bool stopOrGo_s = true, stopOrGo_e = true; 
+
+	bool prevStop_s = true, prevStop_e = true; 
 };

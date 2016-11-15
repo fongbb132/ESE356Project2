@@ -5,11 +5,33 @@ void Robot::move(){
 		x += robotSpeed * timeIncrement; 
 		// cout<<"Robot Moving " << endl;
 	} else{
-		if(!stopOrGo_s)
+
+		if(!stopOrGo_s && (prevStop_s != stopOrGo_s)){
 			cout<<"At time: "<<currentTime<<" Robot is reaching the edge of the grid. Stop."<<endl;
-		else if(!stopOrGo_e) 
-			cout<<"At time: "<<currentTime<<". Obstacle is in the front. Stop."<<endl;
+			prevStop_s = stopOrGo_s;
+		}
+		if(!stopOrGo_e  && (prevStop_e != stopOrGo_e)) {//&& prevStop_e != stopOrGo_e  && (prevStop_e != stopOrGo_e)
+			cout<<"At time: "<<currentTime<<". Obstacle is in the front. Robot Stops."<<endl;
+			prevStop_e = stopOrGo_e;
+		}
 	}
+
+	if(stopOrGo_s && (prevStop_s != stopOrGo_s)){
+		cout<<"At time: "<<currentTime<<" Robot is moving across the grid. "<<endl;
+	}
+
+	if(stopOrGo_e  && (prevStop_e != stopOrGo_e)){
+		cout<<"At time: "<<currentTime<<" Obstacle is passed. Robot continues moving. "<<endl;
+	}
+	if((prevStop_e != stopOrGo_e)){
+		prevStop_e = stopOrGo_e;
+	}
+
+	if((prevStop_s != stopOrGo_s)){
+		prevStop_s = stopOrGo_s;	
+	}
+
+
 }
 
 void Robot::timeRunning(){
@@ -21,11 +43,15 @@ void Robot::timeRunning(){
 			receivePath();
 		}
 		else{
-			move(); 
 			// testPathTransmission();
-
+			// cout<<"******"<<endl;
 			stopOrGo_s = stopOrGo_server.read(); 
 			stopOrGo_e = stopOrGo_env.read(); 
+			// cout<<"*Robot reading env"<< stopOrGo_e<<endl;
+
+
+			// cout<<"current time: " << currentTime<<" stopOrGo_e: "<<stopOrGo_e << endl;
+			move(); 
 
 			// cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
 			x_out_server.write(x); 
@@ -33,7 +59,7 @@ void Robot::timeRunning(){
 
 		}
 
-		wait(1, SC_NS); 
+		// wait(1, SC_NS); 
 	} 
 }
 

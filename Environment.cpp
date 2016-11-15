@@ -24,13 +24,16 @@ void Environment::timeRunning(){
 		}
 		else{
 			obstacle_x -= obstacleSpeed * timeIncrement; 
+
 			// cout<<"Environment at time: "<< currentTime << " robot_x " << robot_x<<" obstacle_x: " << obstacle_x<<endl;
 			robot_x =  x_in.read(); 
 
-			if(robot_x - obstacle_x < 0.1 && robot_x - obstacle_x > 0){
+			if(abs(robot_x - obstacle_x )< 0.005 && abs(robot_x - obstacle_x )> 0){
 				stopOrGo.write(0); 
+				// cout<<" Env writing 0 " <<endl ;
 			}else{
 				stopOrGo.write(1); 
+				// cout<<" Env writing 1 " <<endl ;
 			}
 
 			// cout<<"environment time: " << currentTime << " x: " <<robot_x<<endl; 

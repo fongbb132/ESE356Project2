@@ -1,4 +1,5 @@
 #include "systemc.h"
+
 #ifndef CONST_H
 #define CONST_H 1
 #include "const.h"

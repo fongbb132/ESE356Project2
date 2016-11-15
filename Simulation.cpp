@@ -1,10 +1,12 @@
 #include "Server.h"
 #include "Environment.h"
 #include "Robot.h"
+
 #ifndef CONST_H
 #define CONST_H 1
 #include "const.h"
 #endif
+
 int sc_main(int argc, char* argv[]){
 	Server server("server1"); 
 	Environment environment("environment1");
