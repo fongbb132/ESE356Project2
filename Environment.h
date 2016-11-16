@@ -21,6 +21,7 @@ public:
 
 	Environment(sc_module_name name): sc_module(name){
 		SC_THREAD(receivePath);
+		
 		SC_METHOD(timeRunning);
 		sensitive<<clk.pos();
 	
