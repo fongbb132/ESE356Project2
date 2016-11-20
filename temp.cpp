@@ -6,11 +6,17 @@
 #define CONST_H 1
 #include "const.h"
 #endif
+
+const sc_module_name robotNames[] = {"robot1", "robot2", "robot3"};
+
 int sc_main(int argc, char* argv[]){
 	Server server("server1"); 
 	Environment environment("environment1");
 	
-	std::vector<Robot*> robots; 
+	std::vector<Robot> robots; 
+
+	Robot a("robot1");
+	robots.push_back(a); 
 	
 	std::array<sc_signal<float>, numRobot> robot_x_server; 
 	std::array<sc_signal<float>, numRobot> robot_y_server; 
@@ -30,17 +36,14 @@ int sc_main(int argc, char* argv[]){
 
 	for(int i = 0 ; i < numRobot; i++){
 
-		Robot* tempRobot = new Robot("robot"+ i);
-		robots.push_back(tempRobot);
-
-		robots[i]->x_out_server(robot_x_server[i]); 
-		robots[i]->y_out_server(robot_y_server[i]); 
-		robots[i]->x_out_env(robot_x_env[i]); 
-		robots[i]->y_out_env(robot_y_env[i]); 
-		robots[i]->path_in(path_robot[i]); 
-		robots[i]->stopOrGo_env(stopOrGo_env[i]);
-		robots[i]->stopOrGo_server(stopOrGo_server[i]);
-		robots[i]->clk(clock); 
+		robots[i].x_out_server(robot_x_server[i]); 
+		robots[i].y_out_server(robot_y_server[i]); 
+		robots[i].x_out_env(robot_x_env[i]); 
+		robots[i].y_out_env(robot_y_env[i]); 
+		robots[i].path_in(path_robot[i]); 
+		robots[i].stopOrGo_env(stopOrGo_env[i]);
+		robots[i].stopOrGo_server(stopOrGo_server[i]);
+		robots[i].clk(clock); 
 
 
 		server.x_in[i](robot_x_server[i]); 
