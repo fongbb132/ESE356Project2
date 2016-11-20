@@ -9,7 +9,34 @@ void Server::loadPath(){
 	for(int i = 0; i < numPath; i++){
 		myfile>>path[i];
 	}
+
+	for(int i = 0; i < numRow ; i++){
+		for(int j = 0 ; j < numCol; j++){
+			map_2d[i][j]=0; 
+		}
+	}
+	int numSquare;
+	myfile>>numSquare; 
+	for(int i = 0 ; i < numSquare ; i++){
+		int lowX, lowY, highX, highY; 
+
+		myfile>>lowX>>lowY>>highX>>highY; 
+
+		for(int i = lowX ; i<highX; i++){
+			for(int j = lowY; j<highY; j++){
+				map_2d[j][i] = 1;
+			}
+		}
+	}
 	myfile.close(); 
+
+
+	for(int i = 0; i < numRow ; i++){
+		for(int j = 0 ; j < numCol; j++){
+			cout<< map_2d[i][j]<<"|"; 
+		}
+		cout<<endl;
+	}
 }
 
 
@@ -24,7 +51,6 @@ void Server::sendPath(){
 		wait(1, SC_NS); 
 	}
 }
-
 
 void Server::timeRunning(){
 	currentTime+=timeIncrement;

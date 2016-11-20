@@ -20,20 +20,13 @@ public:
 	void testPathTransmission(); 
 
 	int map[numGrid]; 
+
+	int map_2d[numRow][numCol];
 	int path[numPath]; 
 
 	SC_HAS_PROCESS(Server); 
 
 	Server(sc_module_name name): sc_module(name){
-		// for(int i = 0 ; i < numRobot; i++){
-		// 	x_in[i] = new sc_in<float>(); 
-		// 	y_in[i] = new sc_in<float>(); 
-
-		// 	stopOrGo = new sc_out<bool>(); 
-		// 	path_out_env = new sc_fifo_out<sc_int<8>>(); 
-		// 	path_out_robot = new sc_fifo_out<sc_int<8>>(); 
-
-		// }
 
 		for(int i = 0; i < numRobot ; i++){
 			robot_grid[i] = 0; 
