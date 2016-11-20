@@ -7,10 +7,10 @@
 
 class Environment: public sc_module{
 public: 
-	sc_in<float> x_in; 
-	sc_in<float> y_in; 
-	sc_fifo_in<sc_int<8>> path_in;
-	sc_out<bool> stopOrGo; //0 for stop 1 for go 
+	std::array<sc_in<float>, numRobot>  x_in; 
+	std::array<sc_in<float>, numRobot> y_in; 
+	std::array<sc_fifo_in<sc_int<8>>, numRobot> path_in;
+	std::array<sc_out<bool>, numRobot> stopOrGo; //0 for stop 1 for go 
 	sc_in<bool> clk;
 
 	SC_HAS_PROCESS(Environment);
@@ -20,6 +20,15 @@ public:
 	void testPathTransmission(); 
 
 	Environment(sc_module_name name): sc_module(name){
+		// for(int i = 0 ; i < numRobot;i++){
+		// 	x_in[i] = new sc_in<float>(); 
+		// 	y_in[i] = new sc_in<float>(); 
+
+		// 	stopOrGo = new sc_out<bool>(); 
+		// 	path_in = new sc_fifo_in<sc_int<8>>();
+
+		// }
+
 		SC_THREAD(receivePath);
 		
 		SC_METHOD(timeRunning);
@@ -29,10 +38,11 @@ public:
 
 private:
 	double currentTime = 0.0; 
-	int pathIndex = 0 ; 
+	int pathIndex[numRobot] ; 
 	int path[numPath]; 
 	bool isPathReceived = false; 
-	double robot_x; 
+	double robot_x[numRobot]; 
 
-	double obstacle_x = 30; 
+	double obstacle_x[numObstacle]; 
+	double obstacle_y[numObstacle]; 
 };

@@ -16,8 +16,8 @@ void Server::loadPath(){
 void Server::sendPath(){
 	while(true){
 		if(pathIndex < numPath){
-			path_out_env.write(path[pathIndex]);
-			path_out_robot.write(path[pathIndex++]);
+			path_out_env[0].write(path[pathIndex]);
+			path_out_robot[0].write(path[pathIndex++]);
 		}else{
 			finishedSending = true;
 		}
@@ -29,25 +29,26 @@ void Server::sendPath(){
 void Server::timeRunning(){
 	currentTime+=timeIncrement;
 	if(!finishedSending){
-		stopOrGo.write(1); 
+		stopOrGo[0].write(1); 
 	}
 	else{
-		robot_x = x_in.read(); 
-
-		if(map[robot_grid] - robot_x < tolerateVal && !prevStop &&  map[robot_grid] - robot_x > tolerateVal-0.05) {
-			if(!prevStop){
+		robot_x[0] = x_in[0].read(); 
+		// if(map[robot_grid[0]] - robot_x[0] < tolerateVal &&  map[robot_grid[0]] - robot_x[0] > tolerateVal-0.05) {
+		if(map[robot_grid[0]] - robot_x[0] < tolerateVal && !prevStop[0] &&  map[robot_grid[0]] - robot_x[0] > tolerateVal-0.05) {
+			if(!prevStop[0]){
 				cout<<"At time: " <<currentTime<< " Server received request from robot. "<<endl;
-				prevStop = true; 
+				prevStop[0] = true; 
 			}
-			stopOrGo.write(0); 
+			stopOrGo[0].write(0); 
 		}
+
 		else{
-			if(prevStop){
+			if(prevStop[0]){
 				cout<<"At time: " <<currentTime<< " Server permits robot continues moving. "<<endl;
-				prevStop = false ; 
-				robot_grid++; 
+				prevStop[0] = false ; 
+				robot_grid[0]++; 
 			}
-			stopOrGo.write(1); 
+			stopOrGo[0].write(1); 
 		}
 	}
 }

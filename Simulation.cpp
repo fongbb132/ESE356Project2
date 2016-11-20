@@ -37,17 +37,17 @@ int sc_main(int argc, char* argv[]){
 	robot.stopOrGo_server(stopOrGo_server);
 	robot.clk(clock); 
 
-	server.x_in(robot_x_server); 
-	server.y_in(robot_y_server); 
-	server.path_out_robot(path_robot); 
-	server.path_out_env(path_env);
+	server.x_in[0](robot_x_server); 
+	server.y_in[0](robot_y_server); 
+	server.path_out_robot[0](path_robot); 
+	server.path_out_env[0](path_env);
 	server.clk(clock);
-	server.stopOrGo(stopOrGo_server);
+	server.stopOrGo[0](stopOrGo_server);
 
-	environment.x_in(robot_x_env); 
-	environment.y_in(robot_y_env); 
-	environment.path_in(path_env); 
-	environment.stopOrGo(stopOrGo_env); 
+	environment.x_in[0](robot_x_env); 
+	environment.y_in[0](robot_y_env); 
+	environment.path_in[0](path_env); 
+	environment.stopOrGo[0](stopOrGo_env); 
 	environment.clk(clock);
 
 	server.loadPath(); 

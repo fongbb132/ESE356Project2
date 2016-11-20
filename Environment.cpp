@@ -12,25 +12,25 @@ void Environment::testPathTransmission(){
 void Environment::timeRunning(){
 	currentTime+=timeIncrement;
 	if(!isPathReceived){
-		obstacle_x = 20;
-		stopOrGo.write(1); 
+		obstacle_x[0] = 20;
+		stopOrGo[0].write(1); 
 	}
 	else{
-		obstacle_x -= obstacleSpeed * timeIncrement; 
-		robot_x =  x_in.read();             
-		if(abs(robot_x - obstacle_x )< 0.005 && abs(robot_x - obstacle_x )> 0){
-			stopOrGo.write(0); 
+		obstacle_x[0] -= obstacleSpeed * timeIncrement; 
+		robot_x[0] =  x_in[0].read();             
+		if(abs(robot_x[0]- obstacle_x[0] )< 0.005 && abs(robot_x[0] - obstacle_x[0] )> 0){
+			stopOrGo[0].write(0); 
 		}else{
-			stopOrGo.write(1); 
+			stopOrGo[0].write(1); 
 		}
 	}
 }
 
 void Environment::receivePath(){
 	while(true){
-		if(pathIndex < numPath){
-			path[pathIndex]  = path_in.read(); 
-			pathIndex++; 
+		if(pathIndex[0] < numPath){
+			path[pathIndex[0]]  = path_in[0].read(); 
+			pathIndex[0]++; 
 		}else{
 			isPathReceived = true; 
 		}
