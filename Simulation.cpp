@@ -55,8 +55,6 @@ int sc_main(int argc, char* argv[]){
 		environment.stopOrGo[i](stopOrGo_env[i]); 
 	}
 
-
-
 	server.clk(clock);
 	environment.clk(clock);
 
