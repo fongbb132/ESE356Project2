@@ -8,3 +8,6 @@ static const double tolerateVal = 0.1;
 static const int numObstacle = 1;
 
 static const int numCol = 70, numRow = 52; 
+
+
+//Hello
