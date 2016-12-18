@@ -7,21 +7,21 @@ void Robot::move(){
 	} else{
 
 		if(!stopOrGo_s && (prevStop_s != stopOrGo_s)){
-			cout<<"At time: "<<currentTime<<" Robot is reaching the edge of the grid. Stop."<<endl;
+		// 	cout<<"At time: "<<currentTime<<" " <<sc_core::sc_get_current_process_b()->get_parent()->basename()<<" is reaching the edge of the grid. Stop."<<endl;
 			prevStop_s = stopOrGo_s;
 		}
 		if(!stopOrGo_e  && (prevStop_e != stopOrGo_e)) {//&& prevStop_e != stopOrGo_e  && (prevStop_e != stopOrGo_e)
-			cout<<"At time: "<<currentTime<<". Obstacle is in the front. Robot Stops."<<endl;
+		// 	cout<<"At time: "<<currentTime<<sc_core::sc_get_current_process_b()->get_parent()->basename()<<". Obstacle is in the front." <<"Robot Stops."<<endl;
 			prevStop_e = stopOrGo_e;
 		}
 	}
 
 	if(stopOrGo_s && (prevStop_s != stopOrGo_s)){
-		cout<<"At time: "<<currentTime<<" Robot is moving across the grid. "<<endl;
+		// cout<<"At time: "<<currentTime<<sc_core::sc_get_current_process_b()->get_parent()->basename()<<" Robot is moving across the grid. "<<endl;
 	}
 
 	if(stopOrGo_e  && (prevStop_e != stopOrGo_e)){
-		cout<<"At time: "<<currentTime<<" Obstacle is passed. Robot continues moving. "<<endl;
+		// cout<<"At time: "<<currentTime<<sc_core::sc_get_current_process_b()->get_parent()->basename()<<" Obstacle is passed. Robot continues moving. "<<endl;
 	}
 	if((prevStop_e != stopOrGo_e)){
 		prevStop_e = stopOrGo_e;

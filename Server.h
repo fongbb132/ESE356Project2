@@ -12,12 +12,14 @@ public:
 	std::array<sc_out<bool>, numRobot> stopOrGo; 
 	std::array<sc_fifo_out<sc_int<32>>, numRobot> path_out_robot; 
 	std::array<sc_fifo_out<sc_int<32>>, numRobot> path_out_env; 
+	std::vector<int> nodes;
 	sc_in<bool> clk; 
 
 	void loadPath(); 
 	void sendPath(); 
 	void timeRunning(); 
 	void testPathTransmission(); 
+	void nodeOrdering(); 
 
 	int map[numGrid]; 
 

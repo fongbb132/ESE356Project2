@@ -1,16 +1,52 @@
 #include "Server.h"
 #include <fstream> 
+#include "pair.h"
+
+void Server::nodeOrdering(){
+	std::map<int, pairList*> map;
+
+	for(int node: nodes){
+		map.insert(std::make_pair(node, new pairList())) ;
+	}
+
+	for(int j = 0 ; j < numRobot ; j++){
+		for(int i = 0 ; i < numPath; i++ ){
+			if(map.find(path[j][i]) != map.end()){
+				pairList *temp = map.find(path[j][i])->second; 
+				pair *newpair = new pair(); 
+				newpair->robot = j; 
+				newpair->step = i; 
+				temp->pairList.push_back(newpair); 
+			}
+		}
+	}
+
+	for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
+	    cout<<iterator->first<<" " ;
+	    for(int i = 0 ; i < iterator->second->pairList.size(); i++){
+	    	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
+	        // Repeat if you also want to iterate through the second map.
+	    }
+	    cout<<" " <<endl;
+	}
+}
+
+
 void Server::loadPath(){
 	ifstream myfile; 
 	myfile.open("input.txt"); 
 	for(int i = 0; i < numGrid; i++){
 		myfile>>map[i];
 	}
-	
+
 	for(int i = 0; i < numRow ; i++){
 		for(int j = 0 ; j < numCol; j++){
 			map_2d[i][j]=0; 
 		}
+	}
+	for(int i =0 ; i < 8  ; i++){
+		int dumb;
+		myfile>>dumb; 
 	}
 	int numSquare;
 	myfile>>numSquare; 
@@ -18,7 +54,7 @@ void Server::loadPath(){
 		int lowX, lowY, highX, highY; 
 
 		myfile>>lowX>>lowY>>highX>>highY; 
-
+		cout<<lowX<<lowY<<highX<<highY;
 		for(int i = lowX ; i<highX; i++){
 			for(int j = lowY; j<highY; j++){
 				map_2d[j][i] = 1;
@@ -29,25 +65,6 @@ void Server::loadPath(){
 
 	myfile.close(); 
 
-
-	myfile.open("path.txt"); 
-	int numPaths = 0 ; 
-	myfile>> numPaths;
-	for(int i = 0 ; i < numPaths ; i++){
-		int numP = 0 ; 
-		myfile>>numP;
-
-		std::vector<int> paths;
-		for(int j = 0 ; j < numP ; j ++){
-			int temp = 0 ; 
-			myfile >> temp;
-			paths.push_back(temp); 
-		}
-
-		path.push_back(paths); 
-	}
-	
-	myfile.close(); 
 	int rowReduced = 0; 
 	int colReduced = 0; 
 
@@ -119,7 +136,7 @@ void Server::loadPath(){
 	}
 
 	nRow = numRow - rowReduced -3; 
-	nCol = numCol -colReduced - 7- 2-5-8;
+	nCol = numCol - colReduced - 7- 2-5-8;
 	int count = 1; 
 	for(int i = 0 ; i < nRow; i++){
 		for(int j = 0 ; j < nCol ; j++){
@@ -127,12 +144,43 @@ void Server::loadPath(){
 				map_2d[i][j] = count++; 
 		}
 	}
-	for(int i = 0; i < numRow -rowReduced -3 ; i++){
-		for(int j = 0 ; j < numCol-colReduced-7-2-5-8; j++){
+
+	cout<<numRow << "  " << numCol << " " <<rowReduced<<" " << colReduced << " " 
+	<< nRow << " " << nCol <<endl;
+	for(int i = 0; i < nRow ; i++){
+		for(int j = 0 ; j < nCol; j++){
 			printf("%3d|", map_2d[i][j]); 
 		}
 		cout<<endl;
 	}
+
+	myfile.open("path.txt"); 
+	int numPaths = 0 ; 
+	myfile>> numPaths;
+	for(int i = 0 ; i < numPaths ; i++){
+		int numP = 0 ; 
+		myfile>>numP;
+
+		std::vector<int> paths;
+		for(int j = 0 ; j < numP ; j ++){
+			int temp = 0 ; 
+			myfile >> temp;
+			paths.push_back(temp); 
+		}
+
+		path.push_back(paths); 
+	}
+	
+	int numNodes = 0 ; 
+	myfile>>numNodes;
+
+	for(int i = 0 ; i < numNodes ; i++){
+		int temp = 0 ; 
+		myfile>>temp; 
+		nodes.push_back(temp);
+	}
+	myfile.close(); 
+	nodeOrdering();
 }
 
 
@@ -173,7 +221,6 @@ void Server::sendPath(){
 		wait(1, SC_NS); 
 	}
 
-
 }
 
 void Server::timeRunning(){
@@ -188,7 +235,7 @@ void Server::timeRunning(){
 			// if(map[robot_grid[0]] - robot_x[0] < tolerateVal &&  map[robot_grid[0]] - robot_x[0] > tolerateVal-0.05) {
 			if(map[robot_grid[i]] - robot_x[i] < tolerateVal && !prevStop[i] &&  map[robot_grid[i]] - robot_x[i] > tolerateVal-0.05) {
 				if(!prevStop[i]){
-					cout<<"At time: " <<currentTime<< " Server received request from robot. "<<endl;
+					cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
 					prevStop[i] = true; 
 				}
 				stopOrGo[i].write(0); 
@@ -196,7 +243,7 @@ void Server::timeRunning(){
 
 			else{
 				if(prevStop[i]){
-					cout<<"At time: " <<currentTime<< " Server permits robot continues moving. "<<endl;
+					cout<<"At time: " <<currentTime<< " Server permits robot "<<i <<" continues moving. "<<endl;
 					prevStop[i] = false ; 
 					robot_grid[i]++; 
 				}

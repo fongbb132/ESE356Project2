@@ -29,8 +29,9 @@ int sc_main(int argc, char* argv[]){
 	sc_clock clock("clock", 1, SC_NS); 
 
 	for(int i = 0 ; i < numRobot; i++){
-
-		Robot* tempRobot = new Robot("robot"+ i);
+		std::ostringstream oss; 
+		oss<<"robot"<<i; 
+		Robot* tempRobot = new Robot(oss.str().c_str());
 		robots.push_back(tempRobot);
 
 		robots[i]->x_out_server(robot_x_server[i]); 
