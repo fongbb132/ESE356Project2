@@ -28,11 +28,13 @@ void Environment::timeRunning(){
 
 void Environment::receivePath(){
 	while(true){
-		if(pathIndex[0] < numPath){
-			path[pathIndex[0]]  = path_in[0].read(); 
-			pathIndex[0]++; 
-		}else{
-			isPathReceived = true; 
+		for(int i = 0 ; i < numRobot; i++){
+			if(pathIndex[i] < numPath){
+				path[i][pathIndex[i]]  = path_in[i].read(); 
+				pathIndex[i]++; 
+			}else{
+				isPathReceived = true; 
+			}
 		}
 		wait(1, SC_NS); 
 	}

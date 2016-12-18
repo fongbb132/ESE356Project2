@@ -14,7 +14,6 @@ LD              = g++
 FLAGS           = -g -pedantic -Wno-long-long -w \
                  -DSC_INCLUDE_DYNAMIC_PROCESSES -fpermissive \
                  -I$(SYSTEMC_INC_DIR) 
-                 # \-Wall 
 LDFLAGS         = -L. -L$(SYSTEMC_LIB_DIR) -lsystemc -lm
 
 SRCS = Simulation.cpp Robot.cpp Environment.cpp Server.cpp
@@ -25,7 +24,6 @@ main: $(OBJS)
 	$(GXX) -o $@ $(OBJS) $(LDFLAGS) 
 
 .cpp.o:
-	#$(GXX) -I$(SYSTEMC_INC_DIR) -c $< 
 	$(GXX) -I$(SYSTEMC_INC_DIR) -c $< $(LDFLAGS) 
 
 clean:

@@ -18,9 +18,9 @@ int sc_main(int argc, char* argv[]){
 	std::array<sc_signal<float>, numRobot> robot_x_env; 
 	std::array<sc_signal<float>, numRobot> robot_y_env; 
 
-	std::array<sc_fifo<sc_int<8>>, numRobot> path_env; 
+	std::array<sc_fifo<sc_int<32>>, numRobot> path_env; 
 
-	std::array<sc_fifo<sc_int<8>>, numRobot> path_robot; 
+	std::array<sc_fifo<sc_int<32>>, numRobot> path_robot; 
 	
 	std::array<sc_signal<bool>, numRobot> stopOrGo_env; 
 	std::array<sc_signal<bool>, numRobot> stopOrGo_server; 

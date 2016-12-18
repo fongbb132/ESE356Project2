@@ -13,7 +13,7 @@ public:
 	sc_out<float> x_out_env; 
 	sc_out<float> y_out_env;
 
-	sc_fifo_in<sc_int<8>> path_in;
+	sc_fifo_in<sc_int<32>> path_in;
 	sc_in<bool> stopOrGo_env; //0 for stop 1 for go 
 	sc_in<bool> stopOrGo_server; 
 	sc_in<bool> clk; 

@@ -10,8 +10,8 @@ public:
 	std::array<sc_in<float>, numRobot> x_in; 
 	std::array<sc_in<float>, numRobot> y_in; 
 	std::array<sc_out<bool>, numRobot> stopOrGo; 
-	std::array<sc_fifo_out<sc_int<8>>, numRobot> path_out_robot; 
-	std::array<sc_fifo_out<sc_int<8>>, numRobot> path_out_env; 
+	std::array<sc_fifo_out<sc_int<32>>, numRobot> path_out_robot; 
+	std::array<sc_fifo_out<sc_int<32>>, numRobot> path_out_env; 
 	sc_in<bool> clk; 
 
 	void loadPath(); 
@@ -22,7 +22,7 @@ public:
 	int map[numGrid]; 
 
 	int map_2d[numRow][numCol];
-	int path[numPath]; 
+	std::vector<std::vector<int>> path;
 
 	SC_HAS_PROCESS(Server); 
 

@@ -9,7 +9,7 @@ class Environment: public sc_module{
 public: 
 	std::array<sc_in<float>, numRobot>  x_in; 
 	std::array<sc_in<float>, numRobot> y_in; 
-	std::array<sc_fifo_in<sc_int<8>>, numRobot> path_in;
+	std::array<sc_fifo_in<sc_int<32>>, numRobot> path_in;
 	std::array<sc_out<bool>, numRobot> stopOrGo; //0 for stop 1 for go 
 	sc_in<bool> clk;
 
@@ -39,7 +39,7 @@ public:
 private:
 	double currentTime = 0.0; 
 	int pathIndex[numRobot] ; 
-	int path[numPath]; 
+	int path[numRobot][numPath]; 
 	bool isPathReceived = false; 
 	double robot_x[numRobot]; 
 
