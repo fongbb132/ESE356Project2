@@ -7,3 +7,8 @@ struct pair {
 struct pairList{
 	std::vector<pair*> pairList;
 };
+
+struct loc{
+	int col; 
+	int row;
+};

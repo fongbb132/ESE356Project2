@@ -1,6 +1,5 @@
 #include "Server.h"
 #include <fstream> 
-#include "pair.h"
 
 void Server::nodeOrdering(){
 	std::map<int, pairList*> map;
@@ -65,7 +64,7 @@ void Server::loadPath(){
 		// cout<<lowX<<lowY<<highX<<highY;
 		for(int i = lowX ; i<highX; i++){
 			for(int j = lowY; j<highY; j++){
-				map_2d[j][i] = 1;
+				map_2d[j][i] = -1;
 			}
 		}
 	}
@@ -80,7 +79,7 @@ void Server::loadPath(){
 		bool has1 = false; 
 
 		for(int j = 0 ; j < numCol; j++){
-			if(map_2d[i][j] == 1) {
+			if(map_2d[i][j] == -1) {
 				has1 = true;
 				break; 
 			}
@@ -105,7 +104,7 @@ void Server::loadPath(){
 		bool has1 = false; 
 
 		for(int j = 0 ; j < numRow; j++){
-			if(map_2d[j][i] == 1) {
+			if(map_2d[j][i] == -1) {
 				has1 = true;
 				break; 
 			}
@@ -148,8 +147,14 @@ void Server::loadPath(){
 	int count = 1; 
 	for(int i = 0 ; i < nRow; i++){
 		for(int j = 0 ; j < nCol ; j++){
-			if(map_2d[i][j] == 0)
+			if(map_2d[i][j] == 0){
+
+				loc* l = new loc(); 
+				l->col = j; 
+				l->row = i ; 
 				map_2d[i][j] = count++; 
+				map_loc.insert(std::make_pair(count, l));
+			}
 		}
 	}
 

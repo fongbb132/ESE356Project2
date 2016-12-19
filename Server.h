@@ -5,6 +5,11 @@
 #include "const.h"
 #endif
 
+
+#ifndef PAIR_H
+#define PAIR_H 1
+#include "pair.h"
+#endif
 class Server: public sc_module{
 public: 
 	std::array<sc_in<float>, numRobot> x_in; 
@@ -41,6 +46,7 @@ public:
 	}
 
 private:
+	std::map<int, loc*> map_loc;
 	double currentTime = 0.0;
 	int pathIndex = 0; 
 	bool finishedSending = false; 
