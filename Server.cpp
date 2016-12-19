@@ -22,13 +22,21 @@ void Server::nodeOrdering(){
 	}
 
 	for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
+
+		if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
+	    	pair *temp = iterator->second->pairList[0];
+	    	iterator->second->pairList[0] = iterator->second->pairList[1];
+	    	iterator->second->pairList[1] = temp; 
+	    }
 	    cout<<iterator->first<<" " ;
+	  
 	    for(int i = 0 ; i < iterator->second->pairList.size(); i++){
 	    	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
-	        // Repeat if you also want to iterate through the second map.
+
 	    }
 	    cout<<" " <<endl;
 	}
+
 }
 
 
@@ -54,7 +62,7 @@ void Server::loadPath(){
 		int lowX, lowY, highX, highY; 
 
 		myfile>>lowX>>lowY>>highX>>highY; 
-		cout<<lowX<<lowY<<highX<<highY;
+		// cout<<lowX<<lowY<<highX<<highY;
 		for(int i = lowX ; i<highX; i++){
 			for(int j = lowY; j<highY; j++){
 				map_2d[j][i] = 1;
@@ -145,8 +153,8 @@ void Server::loadPath(){
 		}
 	}
 
-	cout<<numRow << "  " << numCol << " " <<rowReduced<<" " << colReduced << " " 
-	<< nRow << " " << nCol <<endl;
+	// cout<<numRow << "  " << numCol << " " <<rowReduced<<" " << colReduced << " " 
+	// << nRow << " " << nCol <<endl;
 	for(int i = 0; i < nRow ; i++){
 		for(int j = 0 ; j < nCol; j++){
 			printf("%3d|", map_2d[i][j]); 

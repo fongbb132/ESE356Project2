@@ -12,10 +12,10 @@ int sc_main(int argc, char* argv[]){
 	
 	std::vector<Robot*> robots; 
 	
-	std::array<sc_signal<float>, numRobot> robot_x_server; 
+	std::array<sc_signal<float>, numRobot> robot_loc_server; 
 	std::array<sc_signal<float>, numRobot> robot_y_server; 
 
-	std::array<sc_signal<float>, numRobot> robot_x_env; 
+	std::array<sc_signal<float>, numRobot> robot_loc_env; 
 	std::array<sc_signal<float>, numRobot> robot_y_env; 
 
 	std::array<sc_fifo<sc_int<32>>, numRobot> path_env; 
@@ -34,9 +34,9 @@ int sc_main(int argc, char* argv[]){
 		Robot* tempRobot = new Robot(oss.str().c_str());
 		robots.push_back(tempRobot);
 
-		robots[i]->x_out_server(robot_x_server[i]); 
+		robots[i]->x_out_server(robot_loc_server[i]); 
 		robots[i]->y_out_server(robot_y_server[i]); 
-		robots[i]->x_out_env(robot_x_env[i]); 
+		robots[i]->x_out_env(robot_loc_env[i]); 
 		robots[i]->y_out_env(robot_y_env[i]); 
 		robots[i]->path_in(path_robot[i]); 
 		robots[i]->stopOrGo_env(stopOrGo_env[i]);
@@ -44,14 +44,14 @@ int sc_main(int argc, char* argv[]){
 		robots[i]->clk(clock); 
 
 
-		server.x_in[i](robot_x_server[i]); 
+		server.x_in[i](robot_loc_server[i]); 
 		server.y_in[i](robot_y_server[i]); 
 		server.path_out_robot[i](path_robot[i]); 
 		server.path_out_env[i](path_env[i]);
 		server.stopOrGo[i](stopOrGo_server[i]);
 
 		environment.path_in[i](path_env[i]); 
-		environment.x_in[i](robot_x_env[i]); 
+		environment.x_in[i](robot_loc_env[i]); 
 		environment.y_in[i](robot_y_env[i]); 
 		environment.stopOrGo[i](stopOrGo_env[i]); 
 	}
