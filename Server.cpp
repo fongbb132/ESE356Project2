@@ -242,6 +242,7 @@ void Server::timeRunning(){
 		auto iterator = map_loc.find(((int)robot_x[i])); 
 		int a = -1; 
 		int b = -1;
+		iterator++;
 		if(iterator!=map_loc.end()){
 			a = iterator->second->row; 
 			b = iterator->second->col;
@@ -249,27 +250,42 @@ void Server::timeRunning(){
 		}
 
 		if(!finishedSending){
+
 			stopOrGo[i].write(0); 
 		}
 		else{
 			robot_x[i] = x_in[i].read(); 
+			printf("robot %d, map_2d:%d robot_x:%f\n", i, map_2d[a][b], robot_x[i]);
+			// printf("%s %d location: %f\n", "robot", i, robot_x[i]);
 			// if(map[robot_grid[0]] - robot_x[0] < tolerateVal &&  map[robot_grid[0]] - robot_x[0] > tolerateVal-0.05) {
-			if(map[robot_grid[i]] - robot_x[i] < tolerateVal && !prevStop[i] &&  map[robot_grid[i]] - robot_x[i] > tolerateVal-0.05) {
-				if(!prevStop[i]){
-					cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
-					prevStop[i] = true; 
-				}
+			
+			if(((int) robot_x[i]) - map_2d[a][b] > 0  ){
+				cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
+				robot_x[i] = path[i][++indexes[i]];
+				prevLoc[i] = robot_x[i]; 
 				stopOrGo[i].write(0); 
+			}else{
+				stopOrGo[i].write(1); 
+
 			}
 
-			else{
-				if(prevStop[i]){
-					cout<<"At time: " <<currentTime<< " Server permits robot "<<i <<" continues moving. "<<endl;
-					prevStop[i] = false ; 
-					robot_grid[i]++; 
-				}
-				stopOrGo[i].write(1); 
-			}
+			// if((a != -1 && b != -1 )&&map_2d[a][b] + 1 - robot_x[i] < tolerateVal && !prevStop[i] &&  map_2d[a][b] + 1 - robot_x[i] > tolerateVal) {
+			// 	if(!prevStop[i]){
+					// cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
+			// 		prevStop[i] = true; 
+			// 	}
+			// 	stopOrGo[i].write(0); 
+			// }
+
+
+			// else{
+			// 	if(prevStop[i]){
+			// 		cout<<"At time: " <<currentTime<< " Server permits robot "<<i <<" continues moving. "<<endl;
+			// 		prevStop[i] = false ; 
+			// 		robot_grid[i]++; 
+			// 	}
+			// 	stopOrGo[i].write(1); 
+			// }
 		}
 	}
 	

@@ -53,7 +53,8 @@ private:
 	bool finishedSending = false; 
 	double robot_x[numRobot]; 
 	int robot_grid[numRobot];//path[0]; 
-
+	int prevLoc[numRobot];
+	int indexes[numRobot];
 	bool prevStop[numRobot]; 
 };
 
