@@ -19,6 +19,7 @@ public:
 	std::array<sc_fifo_out<sc_int<32>>, numRobot> path_out_env; 
 	std::vector<int> nodes;
 	sc_in<bool> clk; 
+	std::array<sc_out<double>, numRobot> index_out; 
 
 	void loadPath(); 
 	void sendPath(); 

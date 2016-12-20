@@ -17,6 +17,7 @@ public:
 	sc_in<bool> stopOrGo_env; //0 for stop 1 for go 
 	sc_in<bool> stopOrGo_server; 
 	sc_in<bool> clk; 
+	sc_in<double> index_in; 
 
 	SC_HAS_PROCESS(Robot); 
 
@@ -32,12 +33,13 @@ public:
 	}
 
 private:
+	bool init = false;
+	int index = 0 ; 
 	double currentTime = 0.0; 
 	int pathIndex = 0 ; 
 	int path[numPath]; 
 	bool isPathReceived = false; 
 	float x = 0.0; 
 	bool stopOrGo_s = true, stopOrGo_e = true; 
-
 	bool prevStop_s = true, prevStop_e = true; 
 };

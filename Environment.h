@@ -20,14 +20,6 @@ public:
 	void testPathTransmission(); 
 
 	Environment(sc_module_name name): sc_module(name){
-		// for(int i = 0 ; i < numRobot;i++){
-		// 	x_in[i] = new sc_in<float>(); 
-		// 	y_in[i] = new sc_in<float>(); 
-
-		// 	stopOrGo = new sc_out<bool>(); 
-		// 	path_in = new sc_fifo_in<sc_int<8>>();
-
-		// }
 
 		SC_THREAD(receivePath);
 		

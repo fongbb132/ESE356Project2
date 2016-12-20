@@ -21,7 +21,6 @@ void Server::nodeOrdering(){
 	}
 
 	for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
-
 		if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
 	    	pair *temp = iterator->second->pairList[0];
 	    	iterator->second->pairList[0] = iterator->second->pairList[1];
@@ -206,7 +205,6 @@ void Server::sendPath(){
 	int pathIndex3 = 0; 
 
 	while(true){
-
 		if(pathIndex1 < path[0].size()){
 			path_out_env[0].write(path[0][pathIndex1]);
 			path_out_robot[0].write(path[0][pathIndex1++]);
@@ -240,6 +238,16 @@ void Server::timeRunning(){
 	currentTime+=timeIncrement;
 
 	for(int i = 0 ; i < numRobot; i++){
+		// printf("%0.4f\n", robot_x[i] );
+		auto iterator = map_loc.find(((int)robot_x[i])); 
+		int a = -1; 
+		int b = -1;
+		if(iterator!=map_loc.end()){
+			a = iterator->second->row; 
+			b = iterator->second->col;
+			// printf("-----> %d %d\n", a, b);
+		}
+
 		if(!finishedSending){
 			stopOrGo[i].write(0); 
 		}

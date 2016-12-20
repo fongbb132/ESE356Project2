@@ -24,6 +24,7 @@ int sc_main(int argc, char* argv[]){
 	
 	std::array<sc_signal<bool>, numRobot> stopOrGo_env; 
 	std::array<sc_signal<bool>, numRobot> stopOrGo_server; 
+	std::array<sc_signal<double>, numRobot> path_index; 
 
 
 	sc_clock clock("clock", 1, SC_NS); 
@@ -41,10 +42,12 @@ int sc_main(int argc, char* argv[]){
 		robots[i]->path_in(path_robot[i]); 
 		robots[i]->stopOrGo_env(stopOrGo_env[i]);
 		robots[i]->stopOrGo_server(stopOrGo_server[i]);
+		robots[i]->index_in(path_index[i]);
 		robots[i]->clk(clock); 
 
 
 		server.x_in[i](robot_loc_server[i]); 
+		server.index_out[i](path_index[i]); 
 		server.y_in[i](robot_y_server[i]); 
 		server.path_out_robot[i](path_robot[i]); 
 		server.path_out_env[i](path_env[i]);

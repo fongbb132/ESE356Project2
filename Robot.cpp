@@ -1,8 +1,16 @@
 #include "Robot.h"
 
 void Robot::move(){
+	// cout<<currentTime<<sc_core::sc_get_current_process_b()->get_parent()->basename()<<" " <<stopOrGo_e << " " <<stopOrGo_s<<endl;
 	if(stopOrGo_e && stopOrGo_s){
 		x += robotSpeed * timeIncrement; 
+		if(x - 1 > path[index]){
+			index++; 
+			// printf("%d %d ", index, path[index]);
+			x = path[index]; 
+		}
+		// printf("%s %f\n",sc_core::sc_get_current_process_b()->get_parent()->basename(), x );
+
 		// cout<<"Robot Moving " << endl;
 	} else{
 
@@ -30,46 +38,37 @@ void Robot::move(){
 	if((prevStop_s != stopOrGo_s)){
 		prevStop_s = stopOrGo_s;	
 	}
-
-
 }
 
 void Robot::timeRunning(){
-	// while(true){
-		// cout<<"Robot current time: " <<currentTime<<endl; 
-		currentTime += timeIncrement;
+	currentTime += timeIncrement;
 
-		if(!isPathReceived){
-			// receivePath();
-		}
-		else{
-			// testPathTransmission();
-			// cout<<"******"<<endl;
-			stopOrGo_s = stopOrGo_server.read(); 
-			stopOrGo_e = stopOrGo_env.read(); 
-			// cout<<"*Robot reading env"<< stopOrGo_e<<endl;
+	if(!isPathReceived){
+		// receivePath();
+	}
+	else{
+		// testPathTransmission();
+		// cout<<"******"<<endl;
+		stopOrGo_s = stopOrGo_server.read(); 
+		stopOrGo_e = stopOrGo_env.read(); 
+		// index = index_in.read();
+		// cout<<"*Robot reading env"<< stopOrGo_e<<endl;
 
 
-			// cout<<"current time: " << currentTime<<" stopOrGo_e: "<<stopOrGo_e << endl;
-			move(); 
+		// cout<<"current time: " << currentTime<<" stopOrGo_e: "<<stopOrGo_e << endl;
+		move(); 
 
-			// cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
-			x_out_server.write(x); 
-			x_out_env.write(x); 
-
-		}
-
-		// wait(1, SC_NS); 
-	// } 
+		// cout<<"current time: " << currentTime<<" Robot location: "<<x << endl;
+		x_out_server.write(x); 
+		x_out_env.write(x); 
+	}
 }
 
 void Robot::testPathTransmission(){
 		cout<<"Robot: ";
-
 		for(int i = 0 ; i < numPath ; i++){
 			cout<< path[i] << " " ;
 		}
-
 		cout<<endl; 		
 }
 
@@ -79,6 +78,10 @@ void Robot::receivePath(){
 			path[pathIndex]  = path_in.read(); 
 			pathIndex++; 
 		}else{
+			if(!init){
+				init = true;
+				x = path[0];
+			}
 			isPathReceived = true;  
 		}
 		wait(1, SC_NS); 

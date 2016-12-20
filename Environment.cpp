@@ -11,17 +11,20 @@ void Environment::testPathTransmission(){
 
 void Environment::timeRunning(){
 	currentTime+=timeIncrement;
-	if(!isPathReceived){
-		obstacle_x[0] = 20;
-		stopOrGo[0].write(1); 
-	}
-	else{
-		obstacle_x[0] -= obstacleSpeed * timeIncrement; 
-		robot_x[0] =  x_in[0].read();             
-		if(abs(robot_x[0]- obstacle_x[0] )< 0.005 && abs(robot_x[0] - obstacle_x[0] )> 0){
-			stopOrGo[0].write(0); 
-		}else{
-			stopOrGo[0].write(1); 
+
+	for(int i = 0 ; i < numRobot ; i++){
+		if(!isPathReceived){
+			obstacle_x[i] = 20;
+			stopOrGo[i].write(1); 
+		}
+		else{
+			obstacle_x[i] -= obstacleSpeed * timeIncrement; 
+			robot_x[i] =  x_in[i].read();             
+			if(abs(robot_x[i]- obstacle_x[i] )< 0.005 && abs(robot_x[i] - obstacle_x[i] )> 0){
+				stopOrGo[i].write(0); 
+			}else{
+				stopOrGo[i].write(1); 
+			}
 		}
 	}
 }
