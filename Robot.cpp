@@ -6,15 +6,11 @@ void Robot::move(){
 		x += robotSpeed * timeIncrement; 
 		x_out_server.write(x); 
 		x_out_env.write(x); 
-		// printf("x location at move function %f\n", x);
 		if(x - 1 > path[index]){
 			index++; 
 			// printf("%d %d ", index, path[index]);
 			x = path[index]; 
 		}
-		// printf("%s %f\n",sc_core::sc_get_current_process_b()->get_parent()->basename(), x );
-
-		// cout<<"Robot Moving " << endl;
 	} else{
 
 		if(!stopOrGo_s && (prevStop_s != stopOrGo_s)){

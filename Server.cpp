@@ -1,7 +1,9 @@
 #include "Server.h"
 #include <fstream> 
+#include <unordered_set>
 
 void Server::nodeOrdering(){
+	
 	std::map<int, pairList*> map;
 
 	for(int node: nodes){
@@ -15,27 +17,159 @@ void Server::nodeOrdering(){
 				pair *newpair = new pair(); 
 				newpair->robot = j; 
 				newpair->step = i; 
-				temp->pairList.push_back(newpair); 
+				temp->pairList.insert(std::make_pair(j, newpair)); 
 			}
 		}
 	}
 
-	for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
-		if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
-	    	pair *temp = iterator->second->pairList[0];
-	    	iterator->second->pairList[0] = iterator->second->pairList[1];
-	    	iterator->second->pairList[1] = temp; 
-	    }
-	    cout<<iterator->first<<" " ;
+	// for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
+	// 	if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
+	//     	pair *temp = iterator->second->pairList[0];
+	//     	iterator->second->pairList[0] = iterator->second->pairList[1];
+	//     	iterator->second->pairList[1] = temp; 
+	//     }
+	    // cout<<iterator->first<<" " ;
 	  
-	    for(int i = 0 ; i < iterator->second->pairList.size(); i++){
-	    	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
+	    // for(int i = 0 ; i < iterator->second->pairList.size(); i++){
+	    // 	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
 
-	    }
-	    cout<<" " <<endl;
+	    // }
+	    // cout<<" " <<endl;
+	// }
+
+	int dist1 = 0 ; 
+	int dist2 = 0 ; 
+	// std::unordered_set<int, robotsNode*> robot; 
+
+
+	for(int i = 0 ; i < numPath; i++){
+		auto ite = map.find(path[0][i]); 
+		if(ite!= map.end() && ite->second->pairList.find(1)!= ite->second->pairList.end()){
+			dist1 = i; 
+		}
+		auto ite2 = map.find(path[1][i]); 
+		if(ite2!= map.end() && ite2->second->pairList.find(0)!= ite2->second->pairList.end()){
+			dist2 = i; 
+		}
+	}	
+
+	if(dist2 > dist1){
+		// cout<<"Mother fucker"<<endl;
+		for(int i = 0 ; i < numPath; i++){
+			if(map.find(path[0][i])!= map.end()){
+				if(ranks.find(path[0][i])== ranks.end()){
+					numList *v = new numList ();
+					v->numList.push_back(0);
+					ranks.insert(std::make_pair(path[0][i], v));
+				}
+				// else{
+				// 	ranks.find(path[0][i])->second->push_back(0);
+				// }
+			}
+		}
+		for(int i = 0 ; i < numPath; i++){
+			if(map.find(path[1][i])!= map.end()){
+				if(ranks.find(path[1][i])== ranks.end()){
+					numList *v = new numList ();
+					v->numList.push_back(1);
+					ranks.insert(std::make_pair(path[1][i], v));
+				}
+				else{
+					ranks.find(path[1][i])->second->numList.push_back(1);
+				}
+			}
+		}
+	}else{
+		for(int i = 0 ; i < numPath; i++){
+			if(map.find(path[1][i])!= map.end()){
+				if(ranks.find(path[1][i])== ranks.end()){
+					numList *v = new numList ();
+					v->numList.push_back(1);
+					ranks.insert(std::make_pair(path[1][i], v));
+				}
+				// else{
+				// 	ranks.find(path[1][i])->second->numList.push_back(1);
+				// }
+			}
+		}
+		for(int i = 0 ; i < numPath; i++){
+			if(map.find(path[0][i])!= map.end()){
+				if(ranks.find(path[0][i])== ranks.end()){
+					numList *v = new numList ();
+					v->numList.push_back(0);
+					ranks.insert(std::make_pair(path[0][i], v));
+				}
+				else{
+					ranks.find(path[0][i])->second->numList.push_back(0);
+				}
+			}
+		}
+
 	}
 
+	for(int i = 0 ; i < numPath; i++){
+			if(map.find(path[2][i])!= map.end()){
+				if(ranks.find(path[2][i])== ranks.end()){
+					numList *v = new numList ();
+					v->numList.push_back(2);
+					ranks.insert(std::make_pair(path[2][i], v));
+				}
+				else{
+					ranks.find(path[2][i])->second->numList.push_back(2);
+				}
+			}
+		}
+
+
+
+	for(auto iterator = ranks.begin(); iterator != ranks.end(); iterator++) {
+		cout<<iterator->first <<" " ;
+		for(int i = 0 ; i < iterator->second->numList.size() ; i ++) {
+			cout<<  iterator->second->numList[i]<<" "; 
+		}
+		cout<<endl;
+	}
+
+
+	// printf("%d %d\n", dist1, dist2);
+
 }
+
+// void Server::nodeOrdering(){
+// 	std::map<int, pairList*> map;
+
+// 	for(int node: nodes){
+// 		map.insert(std::make_pair(node, new pairList())) ;
+// 	}
+
+// 	for(int j = 0 ; j < numRobot ; j++){
+// 		for(int i = 0 ; i < numPath; i++ ){
+// 			if(map.find(path[j][i]) != map.end()){
+// 				pairList *temp = map.find(path[j][i])->second; 
+// 				pair *newpair = new pair(); 
+// 				newpair->robot = j; 
+// 				newpair->step = i; 
+// 				temp->pairList.push_back(newpair); 
+// 			}
+// 		}
+// 	}
+
+// 	for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
+// 		if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
+// 	    	pair *temp = iterator->second->pairList[0];
+// 	    	iterator->second->pairList[0] = iterator->second->pairList[1];
+// 	    	iterator->second->pairList[1] = temp; 
+// 	    }
+// 	    cout<<iterator->first<<" " ;
+	  
+// 	    for(int i = 0 ; i < iterator->second->pairList.size(); i++){
+// 	    	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
+
+// 	    }
+// 	    cout<<" " <<endl;
+// 	}
+
+// }
 
 
 void Server::loadPath(){
@@ -255,12 +389,12 @@ void Server::timeRunning(){
 		}
 		else{
 			robot_x[i] = x_in[i].read(); 
-			printf("robot %d, map_2d:%d robot_x:%f\n", i, map_2d[a][b], robot_x[i]);
+			// printf("robot %d, map_2d:%d robot_x:%f\n", i, map_2d[a][b], robot_x[i]);
 			// printf("%s %d location: %f\n", "robot", i, robot_x[i]);
 			// if(map[robot_grid[0]] - robot_x[0] < tolerateVal &&  map[robot_grid[0]] - robot_x[0] > tolerateVal-0.05) {
 			
 			if(((int) robot_x[i]) - map_2d[a][b] > 0  ){
-				cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
+				// cout<<"At time: " <<currentTime<< " Server received request from robot "<<i<<endl;
 				robot_x[i] = path[i][++indexes[i]];
 				prevLoc[i] = robot_x[i]; 
 				stopOrGo[i].write(0); 

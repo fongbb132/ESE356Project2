@@ -28,6 +28,7 @@ public:
 	void nodeOrdering(); 
 
 	int map[numGrid]; 
+	std::map<int, numList *>ranks;
 
 	int map_2d[numRow][numCol];
 	std::vector<std::vector<int>> path;
@@ -56,6 +57,7 @@ private:
 	int prevLoc[numRobot];
 	int indexes[numRobot];
 	bool prevStop[numRobot]; 
+	std::map<int, int> time_map; 
 };
 
 

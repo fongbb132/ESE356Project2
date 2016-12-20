@@ -42,4 +42,5 @@ private:
 	float x = 0.0; 
 	bool stopOrGo_s = true, stopOrGo_e = true; 
 	bool prevStop_s = true, prevStop_e = true; 
+ 	double robotSpeed = 2.0; 
 };
