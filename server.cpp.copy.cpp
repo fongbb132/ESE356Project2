@@ -188,35 +188,13 @@ void Server::calculateSpeed(){
 			}
 		}	
 
-		printf("dist1 %f dist2 %f\n", dist1, dist2);
+		// printf("dist1 %f dist2 %f\n", dist1, dist2);
 	}
 
 
 	if(dist1 > dist2 ){
-		// printf("fdasflkjaslfkjlkjflk\n");
+		// printf("sdaflskdfjsladkfjalskj\n");
 		speed[1] = maxSpeed; 
-		
-		for(int i = 0 ; i < numRobot; i ++){
-			
-			if(currentTime>randomStart[randomIndex]-randomNum[randomIndex] && currentTime<randomStart[randomIndex]+randomNum[randomIndex] ){
-				speed[robotSelect[randomIndex]] = 0;
-				// printf("randomNum %f\n", randomStart[randomIndex]-randomNum[randomIndex] );
-			}
-			if(currentTime> randomStart[randomIndex]+randomNum[randomIndex]){
-				randomIndex++; 
-			}
-		}
-		if(randomS[1]>currentTime){
-			speed[1] = 0 ; 
-		}
-		int time1 = dist2C/maxSpeed; 
-		dist2C = dist2C - speed[1] * timeIncrement; 
-		// printf("%s %f\n","Robot 0 max speed", dist1C/time1 );
-		speed[0] = (dist1C/time1> maxSpeed || dist1C <= 0 )? maxSpeed:(time1== 0)? maxSpeed: dist1C/time1; 
-		if(randomS[0]>currentTime){
-			speed[0] = 0 ; 
-		}
-		dist1C -= speed[0] * timeIncrement;  
 		if(isFirstTime){
 			for(int i = 0 ; i < numPath; i++){
 				auto ite = map.find(path[0][i]); 
@@ -225,39 +203,32 @@ void Server::calculateSpeed(){
 					dist3 = (double)i; 
 					dist3C = dist3; 
 				}
+				auto ite1 = map.find(path[0][i]); 
+				if(ite1!= map.end() && ite1->second->pairList.find(1)!= ite1->second->pairList.end()){
+					dist1 = i; 
+					dist1C = dist1; 
+					break;
+				}
 			}	
 			isFirstTime = !isFirstTime; 
 		}
+		if(currentTime > 4 && currentTime < 4.2 ||currentTime > 2 && currentTime < 2.4 ||
+			currentTime > 0.6 && currentTime < 0.85||currentTime > 5.6 && currentTime < 5.95 ||
+			currentTime > 8.7 && currentTime < 8.93){
+			speed[1] = 0; 
+		}
+		int time1 = dist2C/maxSpeed; 
+		dist2C = dist2C - speed[1] * timeIncrement; 
+		// printf("%s %f\n","Robot 0 max speed", dist1C/time1 );
+		speed[0] = (dist1C/time1> maxSpeed || dist1C <= 0 )? maxSpeed:(time1== 0)? maxSpeed: dist1C/time1; 
+		dist1C -= speed[0] * timeIncrement; 
+		// speed[0] = dist1C/time1; 
+		
 
-		speed[2] = (dist3C <= 0 ) ? maxSpeed : (time1== 0)? maxSpeed:dist3C/time1; 
-		if(randomS[2]>currentTime){
-			speed[2] = 0 ; 
-		}
-		for(int i = 0 ; i < numRobot; i ++){
-			
-			if(currentTime>randomStart[randomIndex]-randomNum[randomIndex] && currentTime<randomStart[randomIndex]+randomNum[randomIndex] ){
-				speed[robotSelect[randomIndex]] = 0;
-				// printf("randomNum %f\n", randomStart[randomIndex]-randomNum[randomIndex] );
-			}
-			if(currentTime> randomStart[randomIndex]+randomNum[randomIndex]){
-				randomIndex++; 
-			}
-		}
+		speed[2] = (dist3C <= 0 ) ? maxSpeed : (time1== 0)? maxSpeed: dist3C/time1; 
 		dist3C -= speed[2] * timeIncrement ; 
 	}else{
-		speed[0] = maxSpeed; 
-
-		for(int i = 0 ; i < numRobot; i ++){
-			if(currentTime>randomStart[randomIndex]-randomNum[randomIndex] && currentTime<randomStart[randomIndex]+randomNum[randomIndex] ){
-				speed[i] = 0;
-				printf("randomNum %d\n", randomStart[randomIndex]-randomNum[randomIndex] );
-			}
-		}
-		int time1 = dist1C/maxSpeed; 
-		dist1C = dist1C - maxSpeed * timeIncrement; 
-
-		speed[1] = (dist2/time1> maxSpeed)? maxSpeed: dist2C/time1; 
-		dist2C -= speed[1] * timeIncrement; 
+		speed[0] = 0; 
 		if(isFirstTime){
 			for(int i = 0 ; i < numPath; i++){
 				auto ite = map.find(path[1][i]); 
@@ -266,12 +237,31 @@ void Server::calculateSpeed(){
 					dist3 = (double)i; 
 					dist3C = dist3; 
 				}
+
+				auto ite1 = map.find(path[1][i]); 
+				if(ite1!= map.end() && ite1->second->pairList.find(2)!= ite1->second->pairList.end()){
+					dist1 = i; 
+					dist1C = dist1; 
+					break;
+				}
 			}	
 			printf("distance 3 %f\n", dist3C);
 			isFirstTime = !isFirstTime; 
 		}
+		if(currentTime > 4 && currentTime < 4.2 ||currentTime > 2 && currentTime < 2.4 ||
+			currentTime > 0.6 && currentTime < 0.85||currentTime > 5.6 && currentTime < 5.95 ||
+			currentTime > 8.7 && currentTime < 8.93){
+			speed[0] = 0; 
+		}
+		int time1 = dist1C/maxSpeed; 
 
-		speed[2] = dist3C/time1; 
+		dist1C = dist1C - speed[0] * timeIncrement; 
+
+		speed[1] = (dist2/time1> maxSpeed ||dist2C <= 0 ||(time1== 0))?  maxSpeed: dist2C/time1; 
+		dist2C -= speed[1] * timeIncrement; 
+		
+
+		speed[2] = (dist3C <= 0 ) ? maxSpeed : (time1== 0)? maxSpeed: dist3C/time1; 
 		dist3C -= speed[2] * timeIncrement ; 
 	}
 
@@ -284,10 +274,6 @@ void Server::calculateSpeed(){
 	cout <<endl; 
 }
 
-
-void Server::ChangePath(){
-	
-}
 
 void Server::loadPath(){
 	ifstream myfile; 
@@ -411,12 +397,12 @@ void Server::loadPath(){
 
 	// cout<<numRow << "  " << numCol << " " <<rowReduced<<" " << colReduced << " " 
 	// << nRow << " " << nCol <<endl;
-	for(int i = 0; i < nRow ; i++){
-		for(int j = 0 ; j < nCol; j++){
-			printf("%3d|", map_2d[i][j]); 
-		}
-		cout<<endl;
-	}
+	// for(int i = 0; i < nRow ; i++){
+	// 	for(int j = 0 ; j < nCol; j++){
+	// 		printf("%3d|", map_2d[i][j]); 
+	// 	}
+	// 	cout<<endl;
+	// }
 
 	myfile.open("path.txt"); 
 	int numPaths = 0 ; 

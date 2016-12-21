@@ -46,6 +46,8 @@ void Robot::timeRunning(){
 		// receivePath();
 	}
 	else{
+		robotSpeed = speed_in.read(); 
+		// printf("%f\n", robotSpeed);
 		// testPathTransmission();
 		// cout<<"******"<<endl;
 		stopOrGo_s = stopOrGo_server.read(); 

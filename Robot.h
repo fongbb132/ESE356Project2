@@ -18,6 +18,7 @@ public:
 	sc_in<bool> stopOrGo_server; 
 	sc_in<bool> clk; 
 	sc_in<double> index_in; 
+	sc_in<double> speed_in; 
 
 	SC_HAS_PROCESS(Robot); 
 
