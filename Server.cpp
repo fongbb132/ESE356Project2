@@ -21,21 +21,6 @@ void Server::nodeOrdering(){
 		}
 	}
 
-	// for(auto iterator = map.begin(); iterator != map.end(); iterator++) {
-	// 	if(iterator->second->pairList.size() > 1 && iterator->second->pairList[0]->step>iterator->second->pairList[1]->step ){
-	//     	pair *temp = iterator->second->pairList[0];
-	//     	iterator->second->pairList[0] = iterator->second->pairList[1];
-	//     	iterator->second->pairList[1] = temp; 
-	//     }
-	    // cout<<iterator->first<<" " ;
-	  
-	    // for(int i = 0 ; i < iterator->second->pairList.size(); i++){
-	    // 	cout<<iterator->second->pairList[i]->robot << " " <<"at step " << iterator->second->pairList[i]->step <<"   ";
-
-	    // }
-	    // cout<<" " <<endl;
-	// }
-
 	int dist1 = 0 ; 
 	int dist2 = 0 ; 
 	// std::unordered_set<int, robotsNode*> robot; 
@@ -286,6 +271,24 @@ void Server::calculateSpeed(){
 
 
 void Server::changePath(){
+	ifstream myfile; 
+	myfile.open("path1.txt"); 
+	int numPaths = 0 ; 
+	myfile>> numPaths;
+	for(int i = 0 ; i < numPaths ; i++){
+		int numP = 0 ; 
+		myfile>>numP;
+
+		std::vector<int> paths;
+		for(int j = 0 ; j < numP ; j ++){
+			int temp = 0 ; 
+			myfile >> temp;
+			paths.push_back(temp); 
+		}
+
+		path.push_back(paths); 
+	}
+	nodeOrdering(); 
 
 }
 
@@ -489,6 +492,10 @@ void Server::sendPath(){
 void Server::timeRunning(){
 	currentTime+=timeIncrement;
 	// printf("%f\n", currentTime);
+
+	if(currentTime == 6){
+		changePath(); 
+	}
 	for(int i = 0 ; i < numRobot; i++){
 		// printf("%0.4f\n", robot_x[i] );
 		speed_out[i].write(speed[i]); 
