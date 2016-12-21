@@ -285,8 +285,8 @@ void Server::calculateSpeed(){
 }
 
 
-void Server::ChangePath(){
-	
+void Server::changePath(){
+
 }
 
 void Server::loadPath(){
